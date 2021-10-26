@@ -33,7 +33,10 @@ local hooks = require "core.hooks"
 
     hooks.add("install_plugins", function(use)
       use {
-        "tpope/vim-surround",
+        "tpope/vim-abolish"
+      }
+      use {
+        "tpope/vim-surround"
       }
       use { 'alexghergh/nvim-tmux-navigation', config = function()
         require'nvim-tmux-navigation'.setup {
@@ -47,6 +50,13 @@ local hooks = require "core.hooks"
         vim.api.nvim_set_keymap('n', "<C-\\>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateLastActive()<cr>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', "<C-Space>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateNext()<cr>", { noremap = true, silent = true })
       end
+    }
+    use {
+      "jose-elias-alvarez/null-ls.nvim",
+      after = "nvim-lspconfig",
+      config = function()
+        require("custom.plugins.null-ls").setup()
+      end,
     }
   end)
 

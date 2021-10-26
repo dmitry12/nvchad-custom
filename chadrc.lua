@@ -15,7 +15,7 @@ M.options, M.ui, M.mappings, M.plugins = {}, {}, {}, {}
 M.plugins = {
    options = {
       lspconfig = {
-      setup_lspconf = "custom.plugins.lspconfig",
+        setup_lspconf = "custom.plugins.lspconfig",
       },
    },
    -- To change the Packer `config` of a plugin that comes with NvChad,
