@@ -6,7 +6,7 @@ M.setup_lsp = function(attach, capabilities)
   -- lspservers with default config
 
   -- local servers = { "html", "cssls", "pyright" }
-  local servers = {}
+  local servers = {"tsserver"}
 
   for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
@@ -17,15 +17,6 @@ M.setup_lsp = function(attach, capabilities)
       },
     }
   end
-
-  -- typescript
-
-  lspconfig.tsserver.setup {
-    on_attach = function(client, bufnr)
-      client.resolved_capabilities.document_formatting = false
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting_seq_sync()<CR>", {})
-    end,
-  }
 
   -- from: https://github.com/marwan38/NvChad/blob/main/lua/plugins/configs/lspconfig.lua#L109
 
