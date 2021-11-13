@@ -21,10 +21,39 @@ local hooks = require "core.hooks"
   -- you can set one or many mappings
   -- example below:
 
-  -- hooks.add("setup_mappings", function(map)
-    --    map("n", "<leader>cc", "gg0vG$d", opt) -- example to delete the buffer
-    --    .... many more mappings ....
-    -- end)
+  hooks.add("setup_mappings", function(map)
+    -- Center when searching
+    map("n", "n", "nzzzv", opt)
+    map("n", "N", "Nzzzv", opt)
+    map("n", "J", "mzJ`z", opt)
+
+    -- Undo breakpoints
+    map("i", ",", ",<C-g>u", opt)
+    map("i", ".", ".<C-g>u", opt)
+    map("i", "[", "[<C-g>u", opt)
+    map("i", "]", "]<C-g>u", opt)
+    map("i", "(", ")<C-g>u", opt)
+    map("i", "!", "!<C-g>u", opt)
+    map("i", "?", "!<C-g>u", opt)
+    map("i", "$", "$<C-g>u", opt)
+    map("i", "_", "_<C-g>u", opt)
+
+    map("", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
+    map("", "k", '(v:count > 5 ? "m\'" . v:count : "") . "k"', { expr = true })
+
+    -- Moving text
+    map("v", "J", ":m '>+1<CR>gv=gv", opt)
+    map("v", "K", ":m '<-2<CR>gv=gv", opt)
+
+    map("i", "<C-j>", "<esc>:m .+1<CR>==i", opt)
+    map("i", "<C-k>", "<esc>:m .-2<CR>==i", opt)
+
+    map("n", "<leader>j", ":m .+1<CR>==", opt)
+    map("n", "<leader>k", ":m .-2<CR>==", opt)
+
+    --
+    map("n", "s", ":w<CR>", opt)
+  end)
 
     -- To add new plugins, use the "install_plugin" hook,
     -- NOTE: we heavily suggest using Packer's lazy loading (with the 'event' field)
@@ -33,15 +62,19 @@ local hooks = require "core.hooks"
 
     hooks.add("install_plugins", function(use)
       use {
-        "tpope/vim-abolish"
-      }
-      use {
         "tpope/vim-surround"
       }
-      use { 'alexghergh/nvim-tmux-navigation', config = function()
+      use {
+        "tpope/vim-abolish",
+      }
+      use {
+        "DataWraith/auto_mkdir"
+      }
+      use { 
+        "alexghergh/nvim-tmux-navigation", config = function()
         require'nvim-tmux-navigation'.setup {
           disable_when_zoomed = true -- defaults to false
-        }
+      }
 
         vim.api.nvim_set_keymap('n', "<C-h>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateLeft()<cr>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', "<C-j>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateDown()<cr>", { noremap = true, silent = true })
@@ -63,4 +96,4 @@ local hooks = require "core.hooks"
   -- alternatively, put this in a sub-folder like "lua/custom/plugins/mkdir"
   -- then source it with
 
-  -- require "custom.plugins.mkdir"
+require "custom.plugins.harpoon"
